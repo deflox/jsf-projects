@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+
+    <title>Reecepy - Your Plan</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <h:outputStylesheet library="css" name="material.min.css"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+
+
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Your Plan</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml"/>
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100">
+            <h:panelGroup id="mainContent">
+                <h:form id="suggestionList">
+
+                    <c:if test="#{empty dashboardBean.suggestions}">
+                        <div class="mdl-grid dashboard-content">
+                            <div class="mdl-cell mdl-cell--12-col">
+                                <h3>You dont have any suggestions</h3>
+                                 Just add some by clicking the blue button at the right
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="#{not empty dashboardBean.suggestions}">
+                        <ui:repeat var="day" value="#{dashboardBean.suggestions.entrySet().toArray()}">
+
+                            <div class="mdl-grid dashboard-content">
+                                <div class="mdl-cell mdl-cell--12-col">
+                                    <h3 class="week-day-title">#{day.value.dayName}
+                                        <span class="week-day-title__date">
+                                             <h:outputText value="#{day.value.formatedDate}"/>
+                                        </span>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <ui:repeat var="suggestion" value="#{day.value.suggestions}">
+
+                                <div class="mdl-grid dashboard-content">
+                                    <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe">
+                                        <h:link outcome="recipe?id=#{suggestion.recipe.recipeId}">
+                                            <div class="image-holder-responsive">
+                                                <img src="#{suggestion.recipe.titleImage}" alt="#{suggestion.recipe.recipeName}" class="recipe-small-icon"/>
+                                            </div>
+                                        </h:link>
+
+                                        <div class="mdl-cell--recipe__desc-responsive">
+                                            <h2>#{suggestion.recipe.recipeName}</h2>
+                                            <p>#{suggestion.recipe.shortDesc}</p>
+                                        </div>
+
+                                        <div class="voting-button-holder-responsive">
+                                            <h:commandLink styleClass="link-hide">
+                                                <div class="voting-button"><span class="voting-button__vote-number">#{suggestion.voteCount}</span>
+                                                    <i class="material-icons material-icons--vote-heart">#{suggestion.hasUserVoted(userSessionBean.user.userId) ? "favorite" : "favorite_border"}</i>
+                                                </div>
+                                                <f:ajax execute="@form" listener="#{dashboardBean.switchVote(suggestion)}" render="@form"/>
+                                            </h:commandLink>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </ui:repeat>
+                        </ui:repeat>
+                    </c:if>
+                </h:form>
+
+            </h:panelGroup>
+
+        </main>
+
+    </div>
+
+
+    <div id="overlay"></div>
+    <div class="protect">
+        <div class="fab">
+
+            <i class="material-icons fab-icon">add</i>
+
+            <h:form class='cntt-wrapper' id="addRecipe">
+                <div id="fab-hdr">
+                    <h3>Add suggestion</h3>
+                </div>
+                <div class="form">
+
+                    <h:messages styleClass="global-form-error" globalOnly="true" id="error_message"/>
+
+                    <dl class="dropy">
+                        <dt class="dropy__title"><span>Date</span></dt>
+                        <dd class="dropy__content">
+                            <ul>
+                                <li><a class="dropy__header">Date</a></li>
+                                <ui:repeat value="#{dashboardBean.dates}" var="value">
+                                    <li><a>#{value}</a></li>
+                                </ui:repeat>
+                            </ul>
+                        </dd>
+                        <h:inputHidden type="hidden" name="date" value="#{dashboardBean.date}"/>
+                    </dl>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                        <h:inputText id="recipeField" styleClass="mdl-textfield__input" value="#{dashboardBean.inputRecipe}"/>
+                        <h:outputLabel value="Recipe" styleClass="mdl-textfield__label" for="recipeField" />
+                    </div>
+
+                    <h:panelGroup id="recipeSuggestions">
+                        <h:panelGroup  layout="block" rendered="#{dashboardBean.recipesSuggestionsFound}" styleClass="recipeSuggestions">
+                            <ui:repeat value="#{dashboardBean.recipesSuggestion}" var="value">
+                                <li onclick="setRecipe(this)"><a>#{value.recipeName}</a></li>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:inputHidden value="#{dashboardBean.response}" id="response"/>
+
+                    <h:commandButton value="" id="searchRecipes" styleClass="gone">
+                        <f:ajax execute="recipeField" render="recipeSuggestions" listener="#{dashboardBean.updateSuggestions()}"/>
+                    </h:commandButton>
+
+                </div>
+                <div class="btn-wrapper">
+                    <button class="mdl-button mdl-js-button mdl-button--accent" id="recipe_cancel">Cancel</button>
+                    <h:commandButton value="Add" styleClass="mdl-button mdl-js-button mdl-button--accent">
+                        <f:ajax execute="@form" render="response suggestionList error_message recipeSuggestions" listener="#{dashboardBean.addSuggestion()}" onevent="addedCallBack"/>
+                    </h:commandButton>
+                </div>
+
+            </h:form>
+        </div>
+    </div>
+
+
+
+</h:body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<h:outputScript library="js" name="material.min.js"/>
+<script>
+    // <![CDATA[
+
+    //Variables
+    var overlay = $("#overlay");
+    var fab = $(".fab");
+    var submit = $("#recipe_add");
+    var cancel = $("#recipe_cancel");
+
+    //fab click
+    fab.on('click', openDialog);
+
+    overlay.on('click', closeDialog);
+    cancel.on('click', closeDialog);
+
+    function openDialog(event) {
+        if(event) event.preventDefault();
+        fab.addClass('active');
+        overlay.addClass('dark-overlay');
+    }
+
+    function closeDialog(event) {
+        if(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+        fab.removeClass('active');
+        overlay.removeClass('dark-overlay');
+    }
+
+
+    /**
+     * Dropy
+     */
+    var dropy = {
+        $dropys: null,
+        openClass: 'open',
+        selectClass: 'selected',
+        init: function () {
+            var self = this;
+
+            self.$dropys = $('.dropy');
+            self.eventHandler();
+        },
+        eventHandler: function () {
+            var self = this;
+
+            // Opening a dropy
+            self.$dropys.find('.dropy__title').click(function () {
+                self.$dropys.removeClass(self.openClass);
+                $(this).parents('.dropy').addClass(self.openClass);
+            });
+
+            // Click on a dropy list
+            self.$dropys.find('.dropy__content ul li a').click(function () {
+                var $that = $(this);
+                var $dropy = $that.parents('.dropy');
+                var $input = $dropy.find('input');
+                var $title = $(this).parents('.dropy').find('.dropy__title span');
+
+                // Remove selected class
+                $dropy.find('.dropy__content a').each(function () {
+                    $(this).removeClass(self.selectClass);
+                });
+
+                // Update selected value
+                $title.html($that.html());
+                $input.val($that.html());
+
+                // If back to default, remove selected class else addclass on right element
+                if ($that.hasClass('dropy__header')) {
+                    $title.removeClass(self.selectClass);
+                    $title.html($title.attr('data-title'));
+                }
+                else {
+                    $title.addClass(self.selectClass);
+                    $that.addClass(self.selectClass);
+                }
+
+                // Close dropdown
+                $dropy.removeClass(self.openClass);
+            });
+
+            // Close all dropdown onclick on another element
+            $(document).bind('click', function (e) {
+                if (!$(e.target).parents().hasClass('dropy')) {
+                    self.$dropys.removeClass(self.openClass);
+                }
+            });
+        }
+    };
+
+    document.getElementById('addRecipe:recipeField').onkeyup = function () {
+        delay(function () {
+            document.getElementById('addRecipe:searchRecipes').click();
+        }, 650);
+    };
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    function setRecipe(liElement) {
+        document.getElementById('addRecipe:recipeField').value = liElement.childNodes[0].innerHTML;
+        document.getElementById('addRecipe:recipeSuggestions').className = '';
+        document.getElementById('addRecipe:recipeSuggestions').innerHTML = '';
+        document.getElementById('addRecipe:error_message').innerHTML = '';
+    }
+
+    function addedCallBack(data) {
+        if(data.status === 'success') if(document.getElementById('addRecipe:response').value == "ok") closeDialog();
+        document.getElementById('addRecipe:recipeField').value = '';
+    }
+
+    $(function () {
+        dropy.init();
+    });
+
+
+    // ]]>
+</script>
+
+</html>

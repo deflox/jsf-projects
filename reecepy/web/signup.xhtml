@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+
+    <title>Reecepy - Sign up</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body styleClass="background-img-large">
+
+    <!-- Main content -->
+    <div class="mdl-grid mdl-grid--login-form mdl-grid--paddingBottom100 p-t-120">
+        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-card--border mdl-cell--padding30 background-white">
+
+            <h1 class="mdl-typography--display-3">Please Sign Up</h1>
+
+            <h:messages globalOnly="true" rendered="#{loginBean.activateBean()}" styleClass="global-form-error"/>
+
+            <h:form>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                    <h:inputText id="firstname" styleClass="mdl-textfield__input" value="#{registerBean.user.firstname}"/>
+                    <h:outputLabel value="Firstname" styleClass="mdl-textfield__label" for="firstname" />
+                    <h:message styleClass="mdl-textfield__error" for="firstname" />
+                    <span class="mdl-textfield__error--visible"></span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                    <h:inputText id="lastname" styleClass="mdl-textfield__input" value="#{registerBean.user.lastname}"/>
+                    <h:outputLabel value="Lastname" styleClass="mdl-textfield__label" for="lastname" />
+                    <h:message styleClass="mdl-textfield__error" for="lastname" />
+                    <span class="mdl-textfield__error--visible"></span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                    <h:inputText id="email" styleClass="mdl-textfield__input validate-email" value="#{registerBean.user.email}"/>
+                    <h:outputLabel value="E-Mail-Adress" styleClass="mdl-textfield__label" for="email" />
+                    <h:message styleClass="mdl-textfield__error" for="email" />
+                    <span class="mdl-textfield__error--visible"></span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                    <h:inputSecret id="password" styleClass="mdl-textfield__input pw1" value="#{registerBean.user.password}"/>
+                    <h:outputLabel value="Password" styleClass="mdl-textfield__label" for="password" />
+                    <h:message styleClass="mdl-textfield__error" for="password" />
+                    <span class="mdl-textfield__error--visible"></span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                    <h:inputSecret id="repeatPassword" styleClass="mdl-textfield__input pw2" value="#{registerBean.passwordRepeat}"/>
+                    <h:outputLabel value="Repeat password" styleClass="mdl-textfield__label" for="repeatPassword" />
+                    <h:message styleClass="mdl-textfield__error" for="repeatPassword" />
+                    <span class="mdl-textfield__error--visible"></span>
+                </div>
+
+                <a href="signin.xhtml">Already registered?</a>
+
+                <h:commandButton value="Sign Up" styleClass="mdl-button mdl-js-button mdl-button--float-right" action="#{registerBean.register()}"/>
+
+            </h:form>
+
+        </div>
+    </div>
+
+</h:body>
+<h:outputScript library="js" name="material.min.js" />
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<h:outputScript library="js" name="validator.js" />
+</html>

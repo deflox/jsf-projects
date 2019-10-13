@@ -1,0 +1,45 @@
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  >
+<h:head>
+
+	<title>
+		BbcBank - 
+		<ui:insert name="title">
+			
+		</ui:insert>	
+	</title>
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="datatables.min.css" />
+	<h:outputStylesheet library="css" name="app.css" />
+	
+	<style>
+	
+		@font-face {
+		 	font-family: 'Glyphicons Halflings';
+			
+		  	src:url(#{resource['fonts:glyphicons-halflings-regular.eot']});
+		  	src:url(#{resource['fonts:glyphicons-halflings-regular.eot?#iefix']}) format('embedded-opentype'),url(#{resource['fonts:glyphicons-halflings-regular.woff2']}) format('woff2'),url(#{resource['fonts:glyphicons-halflings-regular.woff']}) format('woff'),url(#{resource['fonts:glyphicons-halflings-regular.ttf']}) format('truetype'),url(#{resource['fonts:glyphicons-halflings-regular.svg#glyphicons_halflingsregular']}) format('svg');
+		}
+	
+	</style>
+	
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+	
+</h:head>
+<h:body>
+	<div id="content" class="container">
+		<ui:insert name="content">
+			
+		</ui:insert>
+	</div>	
+</h:body>
+<h:outputScript library="js" name="jquery.min.js"/>
+<h:outputScript library="js" name="bootstrap.min.js"/>
+<h:outputScript library="js" name="datatables.min.js"/>
+<ui:insert name="javascript">
+			
+</ui:insert>
+</html>

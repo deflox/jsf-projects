@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+
+    <title>Reecepy - Preference</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Preferences</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml" />
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100">
+
+            <!-- Personal information -->
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white p-30">
+                    <h:form>
+                        <h1>Personal information</h1>
+
+                        <h:messages styleClass="global-form-error" globalOnly="true" rendered="#{preferencesBean.personalDataError}" />
+
+                        <h6 class="gravatar-note">
+
+                        </h6>
+
+                        <h:panelGrid columns="2">
+
+                            <h:panelGroup>
+                                <img src="#{userSessionBean.user.profileIcon}" alt="Profile Icon" class="small-img"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                Profile Picture by Gravatar <br/>
+                                Wanna <a href="http://gravatar.com" target="_blank">change it</a>?
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+                        <br/>
+
+                        <div class="mdl-grid mdl-grid--no-spacing">
+                            <div class="mdl-cell mdl-cell--6-col p-r-10">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                    <h:inputText id="firstname" styleClass="mdl-textfield__input" value="#{preferencesBean.user.firstname}"/>
+                                    <h:outputLabel value="Firstname" styleClass="mdl-textfield__label" for="firstname" />
+                                    <span class="mdl-textfield__error--visible"></span>
+                                </div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--6-col p-l-10">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                    <h:inputText id="lastname" styleClass="mdl-textfield__input" value="#{preferencesBean.user.lastname}"/>
+                                    <h:outputLabel value="Lastname" styleClass="mdl-textfield__label" for="lastname" />
+                                    <span class="mdl-textfield__error--visible"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputText id="email" styleClass="mdl-textfield__input validate-email" value="#{preferencesBean.user.email}"/>
+                            <h:outputLabel value="E-Mail-Adress" styleClass="mdl-textfield__label" for="email" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+                        <h:commandButton value="Save" styleClass="mdl-button mdl-js-button mdl-button--float-right" action="#{preferencesBean.updatePersonalData}"/>
+                    </h:form>
+                </div>
+            </div>
+
+            <!-- Information about circle -->
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white p-30">
+                        <h1>Your circle</h1>
+                        <p class="long-text">This people and you have the same front page. They can vote for every recipe and everyone has the same rights. So everyone can remove other users
+                        and everyone can shop the best voted recipes.</p>
+                    <h:form id="addForm">
+
+                        <h:outputLabel styleClass="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addable">
+                            <h:selectBooleanCheckbox value="#{userSessionBean.user.addable}" styleClass="mdl-checkbox__input" id="addable" onclick="document.getElementById('addForm:saveAddableButton').click();"/>
+                            <span class="mdl-checkbox__label">I can be added to a circle</span>
+                        </h:outputLabel>
+
+                        <h:commandButton value="" style="display: none" id="saveAddableButton">
+                            <f:ajax execute="addable" listener="#{preferencesBean.saveAddable()}" render="addable"/>
+                        </h:commandButton>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <div class="mdl-textfield__input-container">
+                                <h:inputText id="addEmail" styleClass="mdl-textfield__input mdl-textfield__input--width-icon" value="#{preferencesBean.addCircleMemberMail}"/>
+                                <h:inputHidden id="addEmailAnswer" value="#{preferencesBean.addCircleMemberAnswer}"/>
+                                <h:commandLink id="addEmailButton" styleClass="gone">
+                                    <f:ajax execute="@form" listener="#{preferencesBean.addMember()}" render="circle" onevent="addedUser"/>
+                                    <i class="material-icons mdl-textfield__add-person-icon">person_add</i>
+                                </h:commandLink>
+                            </div>
+                            <h:outputLabel value="Add someone@example.com" styleClass="mdl-textfield__label" for="addEmail"/>
+                            <span class="mdl-textfield__error">User unkown or unavailable</span>
+                        </div>
+
+                        <h:commandButton value="" id="checkMemberEmail" style="display: none">
+                            <f:ajax execute="addEmail" listener="#{preferencesBean.checkMemberEmail()}" render="addEmailAnswer" onevent="emailAnswer"/>
+                        </h:commandButton>
+
+                    </h:form><br />
+                    <h:form id="circle">
+
+                        <h:panelGroup layout="block" id="circleMembers">
+                            <ui:repeat var="item" value="#{preferencesBean.circleMembers}">
+                                <div class="mdl-grid mdl-grid--no-spacing">
+                                    <div class="mdl-cell mdl-cell--12-col circle-member-div">
+                                        <h6 class="circle-member">
+                                            <img src="#{item.profileIcon}" class="small-img"/> #{item.firstname} #{item.lastname}
+                                        </h6>
+
+                                        <button class="btn js-confirm">
+                                            <i class="material-icons">remove_circle_outline</i>
+
+                                            <h:commandButton styleClass="hidden action">
+                                                <f:ajax listener="#{preferencesBean.removeMember(item.email)}" render="circle"/>
+                                            </h:commandButton>
+
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </h:form>
+
+                </div>
+            </div>
+
+            <!-- Change password -->
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white p-30">
+                    <h:form>
+                        <h1>Change password</h1>
+
+                        <h:messages styleClass="global-form-error" globalOnly="true" rendered="#{preferencesBean.changePasswordError}" />
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputSecret id="currentPassword" styleClass="mdl-textfield__input" value="#{preferencesBean.currentPassword}"/>
+                            <h:outputLabel value="Current password" styleClass="mdl-textfield__label" for="currentPassword" />
+                            <h:message styleClass="mdl-textfield__error" for="currentPassword" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+                        <div class="mdl-grid mdl-grid--no-spacing">
+                            <div class="mdl-cell mdl-cell--6-col p-r-10">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                    <h:inputSecret id="newPassword" styleClass="mdl-textfield__input pw1" value="#{preferencesBean.newPassword}"/>
+                                    <h:outputLabel value="New password" styleClass="mdl-textfield__label" for="newPassword" />
+                                    <h:message styleClass="mdl-textfield__error" for="newPassword" />
+                                    <span class="mdl-textfield__error--visible"></span>
+                                </div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--6-col p-l-10">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                    <h:inputSecret id="newPasswordRepeat" styleClass="mdl-textfield__input pw2" value="#{preferencesBean.newPasswordRepeat}"/>
+                                    <h:outputLabel value="New password" styleClass="mdl-textfield__label" for="newPasswordRepeat"/>
+                                    <h:message styleClass="mdl-textfield__error" for="newPasswordRepeat"/>
+                                    <span class="mdl-textfield__error--visible"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h:commandButton value="Save" styleClass="mdl-button mdl-js-button mdl-button--float-right" action="#{preferencesBean.updatePassword()}"/>
+                    </h:form>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+
+</h:body>
+<h:outputScript library="js" name="material.min.js"/>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<h:outputScript library="js" name="validator.js"/>
+<script>
+    // <![CDATA[
+    var field = document.getElementById("addForm:addEmail");
+    field.onkeyup = function (e) {
+        if($(field).val().length === 0) $(field).parent().parent().removeClass('is-invalid');
+        delay(function () {
+            document.getElementById('addForm:checkMemberEmail').click();
+
+        }, 350);
+    };
+
+    function emailAnswer(data) {
+        if (data.status == "success") {
+            var field = document.getElementById("addForm:addEmail");
+            var button = document.getElementById("addForm:addEmailButton");
+            var result = document.getElementById("addForm:addEmailAnswer").getAttribute("value");
+            console.log(">>" + result);
+            if (result == 'true' || $(field).val().length === 0){
+                $(field).parent().parent().removeClass('is-invalid');
+                $(button).removeClass("gone");
+            }
+            else {
+                $(field).parent().parent().addClass('is-invalid');
+                $(button).addClass("gone");
+            }
+        }
+    }
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    function addedUser (data) {
+        if(data.status === 'success') {
+            document.getElementById('addForm:addEmail').value = '';
+            $(document.getElementById("addForm:addEmailButton")).addClass("gone");
+
+
+        }
+    }
+
+    var Confirm = function(selector) {
+        var fn = function(event) {
+            event.preventDefault();
+
+            var $btn = $(this);
+            var $confirmation = $('<div class="btn-group"/>');
+
+            var $cancel = $('<span/>')
+                    .addClass('btn btn--negative')
+                    .prepend('Cancel')
+                    .on('click', function() {
+                        $confirmation.remove();
+                        $btn.show().one('click', fn);
+                    }).appendTo($confirmation);
+
+            var $confirm = $('<span/>')
+                    .addClass('btn btn--positive')
+                    .prepend('Delete')
+                    .on('click', function() {
+                        $confirmation.remove();
+                        $btn.show().one('click', fn);
+                        $btn.find('.action').click();
+                        Confirm('.js-confirm');
+                    }).appendTo($confirmation);
+
+            $btn.hide().after($confirmation);
+        };
+
+        $(selector).one('click', fn);
+    };
+
+    Confirm('.js-confirm');
+
+
+    // ]]>
+
+</script>
+
+</html>

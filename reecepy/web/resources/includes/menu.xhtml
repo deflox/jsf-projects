@@ -1,0 +1,40 @@
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<!-- Sidebar Navigation -->
+<div class="dashboard-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+
+    <!-- User avatar -->
+    <header class="dashboard-drawer-header background-img-small">
+
+        <img src="#{userSessionBean.user.profileIcon}" alt="User Icon" class="user-avatar"/>
+
+        <div class="dashboard-avatar-dropdown">
+            <h:outputText value="#{userSessionBean.user.email}"/>
+            <div class="mdl-layout-spacer"></div>
+            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                <i class="material-icons" role="presentation">arrow_drop_down</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                <li><h:form><h:commandLink action="#{userSessionBean.logout}" value="Logout" styleClass="mdl-menu__item"/></h:form></li>
+            </ul>
+        </div>
+
+    </header>
+
+    <!-- Navigation -->
+    <nav class="dashboard-sidebar-navigation mdl-navigation mdl-color--blue-grey-800">
+        <a class="mdl-navigation__link" href="/reecepy/dashboard"><i class="material-icons" role="presentation">home</i>Home</a>
+        <c:if test="#{userSessionBean.user.trusted}">
+            <a class="mdl-navigation__link" href="/reecepy/add-recipe"><i class="material-icons" role="presentation">add_box</i>Add Recipe</a>
+        </c:if>
+        <a class="mdl-navigation__link" href="/reecepy/browse"><i class="material-icons" role="presentation">book</i>Browse</a>
+        <a class="mdl-navigation__link" href="/reecepy/go-shopping"><i class="material-icons" role="presentation">shopping_cart</i>Go shopping</a>
+        <a class="mdl-navigation__link" href="/reecepy/preferences"><i class="material-icons" role="presentation">settings</i>Preferences</a>
+        <div class="mdl-layout-spacer"></div>
+        <a class="mdl-navigation__link" href="/reecepy/help"><i class="material-icons" role="presentation">help_outline</i>Help</a>
+    </nav>
+
+</div>
+
+</html>

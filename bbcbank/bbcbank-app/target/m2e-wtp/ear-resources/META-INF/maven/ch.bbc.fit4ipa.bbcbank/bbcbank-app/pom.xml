@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>bbcbank</artifactId>
+		<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>bbcbank-app</artifactId>
+	<packaging>ear</packaging>
+	<name>bbcbank-app</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+			<artifactId>bbcbank-web</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+			<artifactId>bbcbank-ejb</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+			<artifactId>bbcbank-jpa</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<applicationName>bbcbank-app</applicationName>
+					<finalName>bbcbank-app</finalName>
+					<modules>
+						<webModule>
+							<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+							<artifactId>bbcbank-web</artifactId>
+							<bundleFileName>bbcbank-web.war</bundleFileName>
+							<contextRoot>/bbcbank</contextRoot>
+						</webModule>
+						<ejbModule>
+							<groupId>ch.bbc.fit4ipa.bbcbank</groupId>
+							<artifactId>bbcbank-ejb</artifactId>
+							<bundleFileName>bbcbank-ejb.jar</bundleFileName>
+						</ejbModule>
+<!-- 						<jarModule> -->
+<!-- 							<groupId>ch.bbc.fit4ipa.bbcbank</groupId> -->
+<!-- 							<artifactId>bbcbank-jpa</artifactId> -->
+<!-- 							<bundleFileName>bbcbank-jpa.jar</bundleFileName> -->
+<!-- 							<includeInApplicationXml>true</includeInApplicationXml> -->
+<!-- 						</jarModule> -->
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+
+    <title>Reecepy - Add recipe</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <!-- Froala Editor Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <h:outputStylesheet library="css" name="froala_editor.min.css" />
+    <h:outputStylesheet library="css" name="froala_style.min.css" />
+
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Add a new recipe</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml"/>
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100 scrollbar-force">
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white p-30">
+
+                    <h:form id="addForm">
+
+                        <h1>Add a new recipe</h1>
+
+                        <h:messages globalOnly="true" styleClass="global-form-error"/>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputText id="recipeName" styleClass="mdl-textfield__input" value="#{addRecipeBean.recipe.recipeName}"/>
+                            <h:outputLabel value="Recipe name" styleClass="mdl-textfield__label" for="recipeName" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputText id="shortDesc" styleClass="mdl-textfield__input" value="#{addRecipeBean.recipe.shortDesc}"/>
+                            <h:outputLabel value="Description" styleClass="mdl-textfield__label" for="shortDesc" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="edit m-t-10 m-b-10"></div>
+                        <h:inputHidden value="#{addRecipeBean.recipe.fullDesc}" id="description"/>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputText id="imagePath" styleClass="mdl-textfield__input" value="#{addRecipeBean.recipe.titleImage}"/>
+                            <h:outputLabel value="Image path" styleClass="mdl-textfield__label" for="imagePath" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+
+                        <!-- Kitchen dropdown -->
+                        <dl class="dropy">
+                            <dt class="dropy__title"><span>Kitchen</span></dt>
+                            <dd class="dropy__content">
+                                <ul>
+                                    <li><a class="dropy__header" data-value="#{-1}">Kitchen</a></li>
+                                    <ui:repeat value="#{addRecipeBean.kitchens}" var="value" varStatus="valueInfo">
+                                        <li><a data-value="#{valueInfo.index}">#{value.kitchenName}</a></li>
+                                    </ui:repeat>
+                                </ul>
+                            </dd>
+                            <h:inputHidden type="hidden" name="kitchens" value="#{addRecipeBean.kitchen}"/>
+                        </dl>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label p-r-10" style="width: 50%;">
+                            <h:inputText id="calories" styleClass="mdl-textfield__input" value="#{addRecipeBean.recipe.calories}" p:type="number" p:min="0"/>
+                            <h:outputLabel value="Calories" styleClass="mdl-textfield__label" for="calories"/>
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label floating-right" style="width: 50%;">
+                            <h:inputText id="duration" styleClass="mdl-textfield__input" value="#{addRecipeBean.recipe.duration}" p:type="number" p:min="0"/>
+                            <h:outputLabel value="Duration" styleClass="mdl-textfield__label" for="duration" />
+                            <span class="mdl-textfield__error--visible"></span>
+                        </div>
+
+                        <h3>Ingridents
+                            <h:commandLink >
+                                <i id="add-ingredient" class="material-icons floating-right add-ingredient" title="Add new ingredient">add</i>
+                                  <f:ajax execute="@form" render="ingredientsView" listener="#{addRecipeBean.addIngredient()}" onevent="addedCallBack"/>
+                             </h:commandLink>
+                        </h3>
+
+                        <h:panelGroup id="ingredientsView" layout="block" class="mdl-grid">
+                            <ui:repeat value="#{addRecipeBean.ingredients}" var="ingredient">
+                                <div class="mdl-cell--1-col p-r-5">
+                                    <h:commandLink>
+                                        <i class="material-icons remove-ingredient">delete</i>
+                                        <f:ajax execute="@this" render="addForm:ingredientsView" listener="#{addRecipeBean.removeIngredient(ingredient)}" />
+                                    </h:commandLink>
+                                </div>
+                                <div class="mdl-cell--6-col p-r-5">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                        <h:inputText id="productName" styleClass="mdl-textfield__input ownInputStyle" value="#{ingredient.product.productName}" p:placeholder="Name"/>
+                                        <h:outputLabel value="Product name" for="productName" styleClass="hidden" />
+                                        <span class="mdl-textfield__error--visible"></span>
+                                    </div>
+                                </div>
+                                <div class="mdl-cell--3-col p-r-5">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                                        <h:inputText id="amount" styleClass="mdl-textfield__input ownInputStyle" value="#{ingredient.amount}" p:type="number" p:min="0"/>
+                                        <h:outputLabel value="Product name" for="amount" styleClass="hidden" />
+                                        <span class="mdl-textfield__error--visible"></span>
+                                    </div>
+                                </div>
+                                <div class="mdl-cell--3-col">
+                                    <dl class="dropy full-width">
+                                        <dt class="dropy__title"><span>Units</span></dt>
+                                        <dd class="dropy__content">
+                                            <ul>
+                                                <li><a class="dropy__header" data-value="#{-1}">Units</a></li>
+                                                <ui:repeat value="#{addRecipeBean.units}" var="unit" varStatus="valueInfo">
+                                                    <li><a data-value="#{unit.unitId}">#{unit.unitName}</a></li>
+                                                </ui:repeat>
+                                            </ul>
+                                        </dd>
+                                        <h:inputHidden type="hidden" name="units" value="#{ingredient.product.unit.unitId}"/>
+                                    </dl>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGroup>
+
+                        <h:commandButton value="Add recipe" styleClass="mdl-button mdl-js-button mdl-button--float-right" action="#{addRecipeBean.addRecipe()}" id="submitAdd"/>
+
+                    </h:form>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <h:outputScript library="js" name="material.min.js"/>
+
+</h:body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<h:outputScript library="js" name="validator.js"/>
+<h:outputScript library="js" name="froala_editor.min.js"/>
+<script>
+
+    /**
+     * Dropy
+     */
+    var dropy = {
+        $dropys: null,
+        openClass: 'open',
+        selectClass: 'selected',
+        init: function () {
+            var self = this;
+
+            self.$dropys = $('.dropy');
+            self.eventHandler();
+        },
+        eventHandler: function () {
+            var self = this;
+
+            // Opening a dropy
+            self.$dropys.find('.dropy__title').click(function () {
+                self.$dropys.removeClass(self.openClass);
+                $(this).parents('.dropy').addClass(self.openClass);
+            });
+
+            // Click on a dropy list
+            self.$dropys.find('.dropy__content ul li a').click(function () {
+                var $that = $(this);
+                var $dropy = $that.parents('.dropy');
+                var $input = $dropy.find('input');
+                var $title = $(this).parents('.dropy').find('.dropy__title span');
+
+                // Remove selected class
+                $dropy.find('.dropy__content a').each(function () {
+                    $(this).removeClass(self.selectClass);
+                });
+
+                // Update selected value
+                $title.html($that.html());
+                $input.val($that.data('value'));
+
+                // If back to default, remove selected class else addclass on right element
+                if ($that.hasClass('dropy__header')) {
+                    $title.removeClass(self.selectClass);
+                    $title.html($title.attr('data-title'));
+                }
+                else {
+                    $title.addClass(self.selectClass);
+                    $that.addClass(self.selectClass);
+                }
+
+                // Close dropdown
+                $dropy.removeClass(self.openClass);
+            });
+
+            // Close all dropdown onclick on another element
+            $(document).bind('click', function (e) {
+                if (!$(e.target).parents().hasClass('dropy')) {
+                    self.$dropys.removeClass(self.openClass);
+                }
+            });
+        }
+    };
+
+    function addedCallBack(data) {
+        dropy.init();
+    }
+
+    $(function () {
+        dropy.init();
+    });
+
+    $(function() {
+        $('.edit').editable({
+            inlineMode: false,
+            placeholder: 'Enter here the description for preparation...'
+        })
+    });
+
+    document.getElementById('addForm:submitAdd').addEventListener("click", function () {
+        document.getElementById('addForm:description').value = $('.edit').editable('getHTML');
+    });
+
+</script>
+</html>

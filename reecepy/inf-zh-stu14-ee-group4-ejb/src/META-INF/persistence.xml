@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="reecepy" transaction-type="JTA">
+        <jta-data-source>jdbc/__default</jta-data-source>
+
+        <class>com.reecepy.ejb.models.user.Attempt</class>
+
+        <class>com.reecepy.ejb.models.user.User</class>
+
+        <class>com.reecepy.ejb.models.circle.AdditionalItem</class>
+        <class>com.reecepy.ejb.models.recipe.AmountUnitTranslation</class>
+        <class>com.reecepy.ejb.models.recipe.Unit</class>
+        <class>com.reecepy.ejb.models.circle.Suggestion</class>
+        <class>com.reecepy.ejb.models.recipe.Ingredient</class>
+        <class>com.reecepy.ejb.models.recipe.Kitchen</class>
+        <class>com.reecepy.ejb.models.recipe.Recipe</class>
+        <class>com.reecepy.ejb.models.recipe.Product</class>
+        <class>com.reecepy.ejb.models.circle.Vote</class>
+
+        <properties>
+            <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

@@ -1,0 +1,56 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+               http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+
+    <url-mapping id="default">
+        <pattern value="/" />
+        <view-id value="/signin.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="signin">
+        <pattern value="/signin" />
+        <view-id value="/signin.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="signup">
+        <pattern value="/signup" />
+        <view-id value="/signup.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="dashboard">
+        <pattern value="/dashboard" />
+        <view-id value="/dashboard.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="add-recipe">
+        <pattern value="/add-recipe" />
+        <view-id value="/add-recipe.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="browse">
+        <pattern value="/browse" />
+        <view-id value="/browse.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="recipe">
+        <pattern value="/recipe/#{id}" />
+        <view-id value="/recipe.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="go-shopping">
+        <pattern value="/go-shopping" />
+        <view-id value="/go-shopping.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="help">
+        <pattern value="/help" />
+        <view-id value="/help.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="preferences">
+        <pattern value="/preferences" />
+        <view-id value="/preferences.xhtml" />
+    </url-mapping>
+
+</pretty-config>

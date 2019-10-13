@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+
+    <title>Reecepy - Browse</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Browse</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml"/>
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100 scrollbar-force">
+            <h:form id="filter">
+                <div class="mdl-grid dashboard-content">
+                    <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white p-30">
+
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                            <h:inputText id="search" styleClass="mdl-textfield__input" value="#{browseBean.query}"/>
+                            <h:outputLabel value="Search for a recipe" styleClass="mdl-textfield__label" for="search"/>
+                            <h:message styleClass="mdl-textfield__error" for="search"/>
+                        </div>
+
+                        <div class="mdl-grid">
+
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <dl class="dropy">
+                                    <dt class="dropy__title"><span>Kitchen</span></dt>
+                                    <dd class="dropy__content">
+                                        <ul>
+                                            <li><a class="dropy__header" data-value="#{-1}">Kitchen</a></li>
+                                            <ui:repeat value="#{browseBean.kitchens}" var="value" varStatus="valueInfo">
+                                                <li><a data-value="#{valueInfo.index}">#{value.kitchenName}</a></li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </dd>
+                                    <h:inputHidden type="hidden" name="kitchens" value="#{browseBean.kitchen}"/>
+                                </dl>
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <dl class="dropy">
+                                    <dt class="dropy__title"><span>Duration</span></dt>
+                                    <dd class="dropy__content">
+                                        <ul>
+                                            <li><a class="dropy__header">Duration</a></li>
+                                            <ui:repeat value="#{browseBean.durationValues}" var="value">
+                                                <li><a data-value="#{value[0]}">#{value[0]}</a></li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </dd>
+                                    <h:inputHidden type="hidden" name="duration" value="#{browseBean.duration}"/>
+                                </dl>
+                            </div>
+
+                            <div class="mdl-cell mdl-cell--4-col">
+                                <dl class="dropy">
+                                    <dt class="dropy__title"><span>Calories</span></dt>
+                                    <dd class="dropy__content">
+                                        <ul>
+                                            <li><a class="dropy__header">Calories</a></li>
+                                            <ui:repeat value="#{browseBean.caloriesValues}" var="value">
+                                                <li><a data-value="#{value[0]}">#{value[0]}</a></li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </dd>
+                                    <h:inputHidden type="hidden" name="calories" value="#{browseBean.calories}"/>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <h:commandButton value="" id="getResults" style="display: none">
+                            <f:ajax execute="@form" listener="#{browseBean.loadResults()}" render="results"/>
+                        </h:commandButton>
+
+                    </div>
+                </div>
+
+                <h:panelGroup layout="block" id="results">
+                    <ui:repeat var="item" value="#{browseBean.results}">
+
+                        <div class="mdl-grid dashboard-content">
+                            <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe mdl-color-text--black ">
+                                <h:link outcome="recipe?id=#{item.recipeId}">
+                                    <div class="image-holder-responsive">
+                                        <img src="#{item.titleImage}" alt="#{item.recipeName}" class="recipe-small-icon"/>
+                                    </div>
+                                </h:link>
+                                <div class="mdl-cell--recipe__desc-responsive">
+                                    <h2>#{item.recipeName}</h2>
+                                    <p>#{item.shortDesc}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ui:repeat>
+                </h:panelGroup>
+            </h:form>
+        </main>
+
+    </div>
+
+    <h:outputScript library="js" name="material.min.js"/>
+
+</h:body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+    /**
+     * Dropy
+     */
+    var dropy = {
+        $dropys: null,
+        openClass: 'open',
+        selectClass: 'selected',
+        init: function () {
+            var self = this;
+
+            self.$dropys = $('.dropy');
+            self.eventHandler();
+        },
+        eventHandler: function () {
+            var self = this;
+
+            // Opening a dropy
+            self.$dropys.find('.dropy__title').click(function () {
+                self.$dropys.removeClass(self.openClass);
+                $(this).parents('.dropy').addClass(self.openClass);
+            });
+
+            // Click on a dropy list
+            self.$dropys.find('.dropy__content ul li a').click(function () {
+                var $that = $(this);
+                var $dropy = $that.parents('.dropy');
+                var $input = $dropy.find('input');
+                var $title = $(this).parents('.dropy').find('.dropy__title span');
+
+                // Remove selected class
+                $dropy.find('.dropy__content a').each(function () {
+                    $(this).removeClass(self.selectClass);
+                });
+
+                // Update selected value
+                $title.html($that.html());
+                $input.val($that.data('value'));
+
+                load();
+
+                // If back to default, remove selected class else addclass on right element
+                if ($that.hasClass('dropy__header')) {
+                    $title.removeClass(self.selectClass);
+                    $title.html($title.attr('data-title'));
+                }
+                else {
+                    $title.addClass(self.selectClass);
+                    $that.addClass(self.selectClass);
+                }
+
+                // Close dropdown
+                $dropy.removeClass(self.openClass);
+            });
+
+            // Close all dropdown onclick on another element
+            $(document).bind('click', function (e) {
+                if (!$(e.target).parents().hasClass('dropy')) {
+                    self.$dropys.removeClass(self.openClass);
+                }
+            });
+        }
+    };
+
+    /**
+     * Search
+     */
+    document.getElementById('filter:search').onkeyup = function () {
+        delay(function () {
+            load();
+        }, 500);
+    };
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    /**
+     * Go
+     */
+    function load() {
+        document.getElementById('filter:getResults').click();
+    }
+
+    $(function () {
+        dropy.init();
+    });
+
+</script>
+</html>

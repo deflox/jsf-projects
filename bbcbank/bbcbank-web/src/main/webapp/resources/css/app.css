@@ -1,0 +1,64 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #fafafa;
+}
+p {
+	font-size: 1.2em;
+}
+.jsf-message {
+	list-style-type: none;
+	margin-left: -40px;
+}
+
+/* 
+ * Content
+ * -------------------------------- */
+#content {
+	background-color: white;
+	height: 100vh;
+	border-right: 1px solid #E1E1E1;
+	border-left: 1px solid #E1E1E1;
+	padding: 30px;
+}
+#content h1 {
+	font-size: 6em;
+	font-weight: bold;
+}
+
+/* 
+ * Content transaction filters
+ * -------------------------------- */
+#transaction-filters {
+	border: 1px solid #E1E1E1;
+	margin: 20px 0;
+	padding: 20px 0;
+}
+#transaction-filters .balance {
+	font-size: 2em;
+    font-weight: bold;
+}
+#transaction-filters .account-owner {
+	border-left: 1px solid black;
+}
+
+/* 
+ * Content transaction list
+ * -------------------------------- */
+#transactions_wrapper {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+ 
+ /* 
+ * Content payment radio buttons
+ * -------------------------------- */
+table.payment-radio-buttons {
+ 	margin-bottom: 10px;
+}
+.payment-radio-buttons tr td {
+ 	display: block;
+}
+.payment-radio-buttons tr td input {
+ 	margin-right: 5px;
+}
+ 

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+
+    <title>Reecepy - #{recipeBean.recipe.recipeName}</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Recipe - #{recipeBean.recipe.recipeName}</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml" />
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100">
+
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col">
+
+
+                    <div class="image-holder">
+                        <img src="#{recipeBean.recipe.titleImage}" alt="#{recipeBean.recipe.recipeName}" class="image-holder__image"/>
+                    </div>
+
+                    <div class="m-b-30 long-text"><h4>#{recipeBean.recipe.shortDesc}</h4></div>
+
+                    <div clasS="mdl-grid">
+                        <div class="mdl-cell--4-col mdl-shadow--2dp p-15 mdl-color--white full-height">
+                            <h3>Ingredients</h3>
+                            <ul class="recipe-ingredients">
+                                <ui:repeat var="item" value="#{recipeBean.recipe.ingredients}">
+                                    <li>#{item.amount} #{item.product.unit.unitName} <span class="floating-right">#{item.product.productName}</span></li>
+                                </ui:repeat>
+                            </ul>
+                        </div>
+                        <div class="mdl-cell--8-col p-15 long-text">
+                            <h3>How to</h3>
+                            <h:outputText value="#{recipeBean.recipe.fullDesc}" escape="false"/>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <div id="overlay"></div>
+    <div class="protect">
+        <div class="fab fab--recipe-detail">
+
+            <i class="material-icons material-icons--vote-heart-recipe">favorite_border</i>
+
+            <h:form class='cntt-wrapper' id="addRecipe">
+                <div id="fab-hdr">
+                    <h3>Add suggestion</h3>
+                </div>
+                <div class="form">
+
+                    <h:messages styleClass="global-form-error" globalOnly="true" id="error_message"/>
+
+                    <dl class="dropy">
+                        <dt class="dropy__title"><span>Date</span></dt>
+                        <dd class="dropy__content">
+                            <ul>
+                                <li><a class="dropy__header">Date</a></li>
+                                <ui:repeat value="#{recipeBean.dates}" var="value">
+                                    <li><a>#{value}</a></li>
+                                </ui:repeat>
+                            </ul>
+                        </dd>
+                        <h:inputHidden type="hidden" name="date" value="#{recipeBean.date}"/>
+                    </dl>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width">
+                        <h:inputText id="recipeField" styleClass="mdl-textfield__input" disabled="true" value="#{recipeBean.recipe.recipeName}"/>
+                        <h:outputLabel value="Recipe" styleClass="mdl-textfield__label" for="recipeField" />
+                    </div>
+
+                    <h:inputHidden value="#{recipeBean.response}" id="response"/>
+
+                </div>
+                <div class="btn-wrapper">
+                    <button class="mdl-button mdl-js-button mdl-button--accent" id="recipe_cancel">Cancel</button>
+                    <h:commandButton value="Add" styleClass="mdl-button mdl-js-button mdl-button--accent">
+                        <f:ajax execute="@form" render="response mainContent error_message recipeSuggestions" listener="#{recipeBean.addSuggestion()}" onevent="addedCallBack"/>
+                    </h:commandButton>
+                </div>
+
+            </h:form>
+        </div>
+    </div>
+
+</h:body>
+<h:outputScript library="js" name="material.min.js" />
+<h:outputScript library="js" name="material.min.js" />
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+
+    //Variables
+    var overlay = $("#overlay");
+    var fab = $(".fab");
+    var submit = $("#recipe_add");
+    var cancel = $("#recipe_cancel");
+
+    //fab click
+    fab.on('click', openDialog);
+
+    overlay.on('click', closeDialog);
+    cancel.on('click', closeDialog);
+
+    function openDialog(event) {
+        if(event) event.preventDefault();
+        fab.removeClass('fab--recipe-detail');
+        fab.addClass('active');
+        overlay.addClass('dark-overlay');
+    }
+
+    function closeDialog(event) {
+        if(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+        fab.addClass('fab--recipe-detail');
+        fab.removeClass('active');
+        overlay.removeClass('dark-overlay');
+    }
+
+    /**
+     * Dropy
+     */
+    var dropy = {
+        $dropys: null,
+        openClass: 'open',
+        selectClass: 'selected',
+        init: function () {
+            var self = this;
+
+            self.$dropys = $('.dropy');
+            self.eventHandler();
+        },
+        eventHandler: function () {
+            var self = this;
+
+            // Opening a dropy
+            self.$dropys.find('.dropy__title').click(function () {
+                self.$dropys.removeClass(self.openClass);
+                $(this).parents('.dropy').addClass(self.openClass);
+            });
+
+            // Click on a dropy list
+            self.$dropys.find('.dropy__content ul li a').click(function () {
+                var $that = $(this);
+                var $dropy = $that.parents('.dropy');
+                var $input = $dropy.find('input');
+                var $title = $(this).parents('.dropy').find('.dropy__title span');
+
+                // Remove selected class
+                $dropy.find('.dropy__content a').each(function () {
+                    $(this).removeClass(self.selectClass);
+                });
+
+                // Update selected value
+                $title.html($that.html());
+                $input.val($that.html());
+
+                // If back to default, remove selected class else addclass on right element
+                if ($that.hasClass('dropy__header')) {
+                    $title.removeClass(self.selectClass);
+                    $title.html($title.attr('data-title'));
+                }
+                else {
+                    $title.addClass(self.selectClass);
+                    $that.addClass(self.selectClass);
+                }
+
+                // Close dropdown
+                $dropy.removeClass(self.openClass);
+            });
+
+            // Close all dropdown onclick on another element
+            $(document).bind('click', function (e) {
+                if (!$(e.target).parents().hasClass('dropy')) {
+                    self.$dropys.removeClass(self.openClass);
+                }
+            });
+        }
+    };
+
+    document.getElementById('addRecipe:recipeField').onkeyup = function () {
+        delay(function () {
+            document.getElementById('addRecipe:searchRecipes').click();
+        }, 650);
+    };
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    function setRecipe(liElement) {
+        document.getElementById('addRecipe:recipeField').value = liElement.childNodes[0].innerHTML;
+        document.getElementById('addRecipe:recipeSuggestions').className = '';
+        document.getElementById('addRecipe:recipeSuggestions').innerHTML = '';
+        document.getElementById('addRecipe:error_message').innerHTML = '';
+    }
+
+    function addedCallBack(data) {
+        if(data.status === 'success') if(document.getElementById('addRecipe:response').value == "ok") closeDialog();
+        document.getElementById('addRecipe:recipeField').value = '';
+    }
+
+    $(function () {
+        dropy.init();
+    });
+
+</script>
+</html>

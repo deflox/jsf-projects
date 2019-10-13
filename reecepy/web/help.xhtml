@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+
+    <title>Reecepy - Help</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'/>
+    <meta name='author' content='Reecepy'/>
+    <meta name='description' content='Are you stuck at planing your weekly food plan? Reecepy is your solutin, join now and learn more'/>
+    <meta name='robots' content='index, follow'/>
+    <meta name='theme-color' content='#00acc1'/>
+
+    <link rel="shortcut icon" href="#{resource['img/favicon.png']}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <h:outputStylesheet library="css" name="material.min.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+    <div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+        <!-- Header -->
+        <header class="dashboard-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Help</span>
+            </div>
+        </header>
+
+        <ui:include src="resources/includes/menu.xhtml" />
+
+        <!-- Main content -->
+        <main class="mdl-layout__content mdl-color--grey-100">
+
+
+            <div class="mdl-grid dashboard-content">
+                <div class="mdl-cell mdl-cell--12-col">
+
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <h2>Table of contents:</h2>
+                            <ul class="help-table-of-contents">
+                                <li><a href="#what-is-reecepy">What is reecepy?</a></li>
+                                <li><a href="#what-is-a-circle">What is a circle?</a></li>
+                                <li><a href="#how-to-I-change-my-profile-icon">How can I change my profile icon?</a></li>
+                                <li><a href="#can-I-add-recipes-on-my-own">Can I add recipes on my own?</a></li>
+                                <li><a href="#what-is-the-shopping-list-for">What is the shopping list for?</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mdl-grid" id="what-is-reecepy">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--cyan-600 mdl-cell--recipe p-15">
+                            <h3 class="help-title">What is reecepy?</h3>
+                        </div>
+                    </div>
+                    <div class="mdl-grid mdl-grid--help-content">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <p class="long-text">
+                                With reecepy you can plan your food plan on a two week basis. For that you can get together in a <a href="#what-is-a-circle">circle.</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mdl-grid" id="what-is-a-circle">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--cyan-600 mdl-cell--recipe p-15">
+                            <h3 class="help-title">What is a circle?</h3>
+                        </div>
+                    </div>
+                    <div class="mdl-grid mdl-grid--help-content">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <p class="long-text">
+                                A circle is what we call a family. When you sign up for our service, you will not be in any circle. Well at least you are not in one with
+                                other members. You are in your own circle as default. Now you are able to invite every user by his email, if he is available for an invite.
+                                It is also possible to just use reecepy for yourself as you can turn off your availbility to get invited by disabled the ticked box in
+                                preferences under <a href="preferences.xhtml">circles</a>. <br /> <br />
+                                All members in a circle have the same rights. They can remove and add other members to the circle and shop stuff with the shopping list
+                                tool. And of course they can vote for different suggestion and add new ones for the next two weeks.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mdl-grid" id="how-to-I-change-my-profile-icon">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--cyan-600 mdl-cell--recipe p-15">
+                            <h3 class="help-title">How can I change my profile icon?</h3>
+                        </div>
+                    </div>
+                    <div class="mdl-grid mdl-grid--help-content">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <p class="long-text">
+                                We are managing your profile icon with an external service called gravatar. With gravatar, you have all your profile images at one place.
+                                To get your own icon, just create an account at <a href="http://gravatar.com">gravatar</a> and add one or more of your emails to gravatar
+                                and assign it to an uploaded profile image. <br /><br />
+                                <strong>Importan:</strong> The email adress you are use in gravatar for the image assigment must be the same email as here. So you might wanna
+                                change it at the <a href="preferences.xhtml">preferences</a> view. If the emails are the same, your image will be displayed here.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mdl-grid" id="can-I-add-recipes-on-my-own">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--cyan-600 mdl-cell--recipe p-15">
+                            <h3 class="help-title">Can I add recipes on my own?</h3>
+                        </div>
+                    </div>
+                    <div class="mdl-grid mdl-grid--help-content">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <p class="long-text">
+                                Currently this isn't possible to handle. We are trying to offer you a wide variation of recipes, so that you never miss one for your plan.
+                                If you still think, that there is one, which is missing write an email at <a hreF="mailto:contant@reecepy.com">contact@reecepy.com</a> to
+                                propose your idea. We are open for any suggestions!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mdl-grid" id="what-is-the-shopping-list-for">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--cyan-600 mdl-cell--recipe p-15">
+                            <h3 class="help-title">What is the shopping list for?</h3>
+                        </div>
+                    </div>
+                    <div class="mdl-grid mdl-grid--help-content">
+                        <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-color--white mdl-cell--recipe p-15">
+                            <p class="long-text">
+                                Our <a href="go-shopping.xhtml">shopping list</a> is a useful tool to create your shopping list with your suggestions. By default every best
+                                voted recipe is already checked. But you can check other to recipes too to add it to your shopping list. <br /><br />
+                                And it's even possible to add additional items to your list, so that you can use this shopping list for other things too!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+
+</h:body>
+<h:outputScript library="js" name="material.min.js" />
+</html>

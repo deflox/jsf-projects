@@ -1,0 +1,97 @@
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  >
+<h:body>
+	<ui:composition template="resources/templates/default.xhtml">
+		<ui:define name="title">
+			Transaktionen
+		</ui:define>
+    	<ui:define name="content">
+    		<div class="row">
+    			<div class="col-md-6">
+    				<p>BbcBank Online Banking</p>
+    			</div>
+    			<div class="col-md-6 text-right">
+    				<p>Eingeloggt als <strong>#{transactionsBean.customer.firstName} #{transactionsBean.customer.lastName} (#{transactionsBean.customer.customerNumber})</strong></p>
+    			</div>
+    		</div>
+    		<h1>BbcBank <small>Transaktionen</small></h1>
+    		<p>
+    			Unten können Sie die Transaktionen für das ausgewählte Konto sehen. Wenn Sie
+    			die Transaktionen für ein anderes Konto sehen möchte, wählen Sie bitte das entsprechende
+    			Konto aus und klicken Sie auf den "Aktualisieren"-Button.
+    		</p>
+    		<h:form>
+	    		<div id="transaction-filters" class="row">
+	    			<div class="col-md-6">
+	    				<div class="form-group">
+	    					<label for="account">Konto:</label>
+	    					<h:selectOneMenu value="#{transactionsBean.account.iban}" styleClass="form-control">
+						   		<f:selectItems value="#{transactionsBean.ibans}" var="iban"
+						   		itemLabel="#{iban}" itemValue="#{iban}" />
+						   	</h:selectOneMenu>
+	    				</div>
+	    			</div>
+	    			<div class="col-md-4">
+	    				<label>Kontostand:</label><br />
+	    				<span class="balance">CHF <h:outputText value="#{transactionsBean.account.balance}"/></span>
+	    			</div>
+	    			<div class="col-md-2 account-owner">
+	    				<label>Kontoinhaber:</label><br />
+	    				#{transactionsBean.customer.firstName} #{transactionsBean.customer.lastName}<br />
+	    				#{transactionsBean.customer.street}<br />
+	    				#{transactionsBean.customer.zipCode} #{transactionsBean.customer.city}
+	    			</div>
+	    		</div>
+	    		<div class="clearfix">
+	    			<h:commandButton value="Aktualisieren" type="submit" action="#{transactionsBean.refresh}" styleClass="btn btn-primary pull-right" />
+	    		</div>
+    		</h:form>
+    		<table id="transactions" class="table table-striped">
+    			<thead>
+    				<tr>
+    					<th>Datum</th>
+    					<th>Information</th>
+    					<th>Belastungen</th>
+    					<th>Gutschriften</th>
+    					<th>Kontostand</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<ui:repeat var="transaction" value="#{transactionsBean.transactionRecords}"> 
+    				<tr>
+    					<td>
+    						<h:outputText value="#{transaction.transactionTime}" >
+							    <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+							</h:outputText>
+    					</td>
+    					<td>#{transaction.text}</td>
+    					<td><h:outputText value="#{transaction.amount}" rendered="#{transaction.type eq 'D'}"/></td>
+    					<td><h:outputText value="#{transaction.amount}" rendered="#{transaction.type eq 'C'}"/></td>
+    					<td>#{transaction.balance}</td>
+    				</tr>
+    				</ui:repeat>
+    			</tbody>
+    		</table>
+    	</ui:define>
+    	<ui:define name="javascript">
+    		<script>
+	    		$(document).ready(function(){
+	    		    $('#transactions').DataTable({
+	    		        "paging": false,
+	    		        "info": false,
+	    		        "language": {
+	    		        	"sSearch": "Suchen:",
+	    		        	"sZeroRecords": "Keine Einträge vorhanden."
+	    		        },
+	    		        "order": [[ 0, "desc" ]]
+	    		    });
+	    		});
+    		</script>
+    	</ui:define>
+    </ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,92 @@
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  >
+<h:body>
+	<ui:composition template="resources/templates/default.xhtml">
+		<ui:define name="title">
+			Ein- und Auszahlung durchführen
+		</ui:define>
+    	<ui:define name="content">
+    		<div class="row">
+    			<div class="col-md-6">
+    				<p>BbcBank Banking</p>
+    			</div>
+    			<div class="col-md-6 text-right">
+    				<p>Eingeloggt als Bankangestellter <strong>Hans Muster</strong></p>
+    			</div>
+    		</div>
+    		<h1>BbcBank <small>Zahlung durchführen</small></h1>
+    		<p>
+    			Mit diesem Formular können Sie Ein- oder Auszahlungen für die Konten des 
+    			Kunden "Leo Rudin" durchführen.
+    		</p>
+    		<div class="row">
+    			<div class="col-md-3">
+    				<h2>Kundendaten</h2>
+    				<p>
+    					<strong>Kundennummer:</strong><br />
+    					#{paymentBean.customer.customerNumber}
+    				</p>
+    				<p>
+    					<strong>Name:</strong><br />
+    					#{paymentBean.customer.firstName} #{paymentBean.customer.lastName}
+    				</p>
+    				<p>
+    					<strong>Adresse:</strong><br />
+    					#{paymentBean.customer.street}<br />
+	    				#{paymentBean.customer.zipCode} #{paymentBean.customer.city}
+    				</p>
+    			</div>
+    			<div class="col-md-9">
+    				<h2>Zahlung durchführen</h2>
+    				<h:form>
+    					<h:messages errorClass="alert alert-danger jsf-message" infoClass="alert alert-success jsf-message" globalOnly="true" />
+	    				<div class="form-group">
+	    					<label for="account">Konto:</label>
+	    					<h:selectOneMenu value="#{paymentBean.selectedAccount.iban}" styleClass="form-control">
+							   		<f:selectItems value="#{paymentBean.accountIbans}" var="account"
+							   		itemLabel="#{account}" itemValue="#{account}" />
+							   	</h:selectOneMenu>
+	    				</div>
+	    				<p><strong>Zahlungsart:</strong></p>
+	    				<h:selectOneRadio id="type" value="#{paymentBean.transactionRecord.type}" styleClass="payment-radio-buttons" requiredMessage="Bitte geben Sie an, um welche Zahlungsart es sich handelt.">
+	    					<f:selectItem itemValue="C" itemLabel="Einzahlung" />
+				   			<f:selectItem itemValue="D" itemLabel="Auszahlung" />
+				   			<f:validateRequired />
+				   		</h:selectOneRadio>
+				   		<h:message for="type" style="color:red;" />
+						<p style="padding-top: 10px;"><strong>Zahlungsinformationen:</strong></p>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<h:outputLabel value="Betrag (in CHF)" for="amount" />
+									<h:inputText id="amount" styleClass="form-control" value="#{paymentBean.transactionRecord.amount}" required="true" requiredMessage="Dieses Feld ist erforderlich.">
+										<f:validator validatorId="ch.bbc.fit4ipa.bbcbank.validators.AmountValidator" />
+									</h:inputText>
+									<h:message for="amount" style="color:red" />
+								</div>
+							</div>
+							<div class="col-md-8">
+							<div class="form-group">
+									<h:outputLabel value="Transaktionstext:" for="transaction-info" />
+									<h:inputText id="transaction-info" styleClass="form-control" value="#{paymentBean.transactionRecord.text}" requiredMessage="Dieses Feld ist erforderlich.">
+										<f:validateRequired />
+										<f:validateLength maximum="30" />
+									</h:inputText>
+									<h:message for="transaction-info" style="color:red" />
+								</div>
+							</div>
+						</div>
+						<div class="clearfix">
+							<h:commandButton value="Ausführen" type="submit" action="#{paymentBean.pay}" styleClass="btn btn-primary pull-right" />
+						</div>
+					</h:form>
+    			</div>
+    		</div>
+    	</ui:define>
+    </ui:composition>
+</h:body>
+</html>
