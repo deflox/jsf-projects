@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title>GameXChange</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript library="js" name="jquery.min.js" />
+	<h:outputScript library="js" name="validation.js" />
+	
+</h:head>
+<h:body>
+
+	<ui:include src="resources/templates/menue.xhtml" />
+
+	<b:jumbotron id="site-title-wrapper">
+		<b:container id="front-container">
+			<h1 class="site-title">Edit user</h1>
+		</b:container>		
+	</b:jumbotron>
+
+	<b:container styleClass="main">
+		
+		<b:alert severity="danger" id="errors" role="alert"></b:alert>
+		<b:messages globalOnly="true" />  
+		
+		<h:form>
+		
+			<h2>Account information</h2>
+		
+			<h:outputLabel value="E-Mail-Adress" for="email" styleClass="inputEmail" />
+			<b:inputText id="email" value="#{editUserBean.newEmail}" styleClass="email required"></b:inputText>
+			<h:message errorStyle="color:red" for="email" />  
+			
+			<h2>Personal information</h2>
+		
+			<b:row>
+			    <b:column span="6">
+			    	<h:outputLabel value="Firstname" for="firstname" />
+					<b:inputText id="firstname" value="#{sessionBean.user.firstname}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="firstname" />
+			    </b:column>
+			    <b:column span="6">
+			    	<h:outputLabel value="Lastname" for="lastname" />
+					<b:inputText id="lastname" value="#{sessionBean.user.lastname}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="lastname" />
+			    </b:column>
+			</b:row>
+			
+			<b:row>
+			    <b:column span="10">
+			    	<h:outputLabel value="Street" for="street" />
+					<b:inputText id="street" value="#{sessionBean.user.street}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="street" />
+			    </b:column>
+			    <b:column span="2">
+			    	<h:outputLabel value="Street number" for="streetnum" />
+					<b:inputText id="streetnum" value="#{sessionBean.user.streetno}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="streetnum" />
+			    </b:column>
+			</b:row>
+			
+			<b:row>
+			    <b:column span="2">
+			    	<h:outputLabel value="Postalcode" for="postalcode" />
+					<b:inputText id="postalcode" value="#{sessionBean.user.postalcode}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="postalcode" />
+			    </b:column>
+			    <b:column span="6">
+			    	<h:outputLabel value="City" for="city" />
+					<b:inputText id="city" value="#{sessionBean.user.city}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="city" />
+			    </b:column>
+			    <b:column span="4">
+			    	<h:outputLabel value="Country" for="country" />
+					<b:selectOneMenu id="country" value="#{sessionBean.user.country}" styleClass="required">
+			            <f:selectItem itemLabel="Switzerland" itemValue="CH"></f:selectItem>
+			            <f:selectItem itemLabel="Germany" itemValue="DE"></f:selectItem>
+			            <f:selectItem itemLabel="Austria" itemValue="AT"></f:selectItem>
+			        </b:selectOneMenu>
+			    </b:column>
+			</b:row>
+			
+			<b:commandButton value="Save" look="primary" action="#{editUserBean.editUser()}" styleClass="btn-right"></b:commandButton>
+		
+		</h:form>
+		
+	</b:container>
+
+	<ui:include src="resources/templates/footer.xhtml" />
+
+</h:body>
+</html>

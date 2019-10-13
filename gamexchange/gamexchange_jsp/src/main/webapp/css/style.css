@@ -1,0 +1,32 @@
+.btn-right {
+	float: right;
+}
+
+.btn-right:after {
+	clear: both;
+}
+
+.jumbotron {
+	margin-top: -20px;
+}
+
+.dashicons {
+	text-align: center;
+	padding-bottom: 30px;
+	color: black;
+	transition: background 0.2s;
+	-webkit-transition: background 0.2s;
+}
+
+.center {
+	text-align: center;
+}
+
+.marginBottom20 {
+	margin-bottom: 20px;
+}
+
+.dashicons:hover {
+	background-color: #3d566e;
+	color: white;
+}

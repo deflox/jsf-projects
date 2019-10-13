@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title>GameXChange</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript library="js" name="jquery.min.js" />
+	<h:outputScript library="js" name="validation.js" />
+
+</h:head>
+<h:body>
+
+	<ui:include src="resources/templates/menue.xhtml" />
+
+	<b:jumbotron id="site-title-wrapper">
+		<b:container id="front-container">
+			<h1 class="site-title">Sign In</h1>
+		</b:container>		
+	</b:jumbotron>
+
+	<b:container styleClass="main">
+		
+		<b:alert severity="danger" id="errors" role="alert"></b:alert>
+		
+		<b:messages globalOnly="true" />  
+		
+		<h:form>
+		
+			<b:row> 
+			    <b:column span="6">
+			    	<h:outputLabel value="E-Mail-Adress" for="email" />
+					<b:inputText id="email" value="#{loginBean.user.email}" styleClass="required email"></b:inputText>
+					<h:message errorStyle="color:red" for="email" />  
+			    </b:column>
+			    <b:column span="6">
+			    	<h:outputLabel value="Password" for="password" />
+					<b:inputSecret id="password" value="#{loginBean.user.password}" styleClass="required"></b:inputSecret>
+					<h:message errorStyle="color:red" for="password" />  
+			    </b:column>
+			</b:row>
+			
+			<b:commandButton value="Sign in" look="primary" action="#{loginBean.signIn()}" styleClass="btn-right"></b:commandButton>
+		
+			<h:link value="Forgot your password?" outcome="forgotpw" /><br />
+			<h:link value="Not registered yet?" outcome="signup" />
+		
+		</h:form>
+		
+	</b:container>
+
+	<ui:include src="resources/templates/footer.xhtml" />
+
+</h:body>
+</html>

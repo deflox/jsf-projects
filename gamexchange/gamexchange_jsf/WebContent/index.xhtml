@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+
+	<title>GameXChange</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+<h:body>
+
+	<ui:include src="resources/templates/menue.xhtml" />
+
+	<b:jumbotron>
+	
+		<b:container id="front-container">
+			<h1>GameXChange</h1>
+			<p>Do you have tons of old game cases and games you haven't played for a while? You're getting bored even if you have such a mass of games? Then this is
+			the right place for you. Exchange your games with other gamers for free!</p>
+			<c:if test="#{sessionBean.isLoggedIn() == false}">
+				<a href="signup.xhtml"><b:button value="Sign up now" styleClass="signup-button-intropage" look="primary" size="lg" /></a>
+			</c:if>
+			<c:if test="#{sessionBean.isLoggedIn()}">
+				<a href="signup.xhtml"><b:button value="Sign up now" styleClass="signup-button-intropage" look="primary" size="lg" /></a>
+			</c:if>
+		</b:container>
+
+	</b:jumbotron>
+
+	<ui:include src="resources/templates/footer.xhtml" />
+
+</h:body>
+</html>

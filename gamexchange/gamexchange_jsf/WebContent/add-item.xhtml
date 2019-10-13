@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title>GameXChange</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript library="js" name="jquery.min.js" />
+	<!-- <h:outputScript library="js" name="validation.js" /> -->
+
+</h:head>
+<h:body>
+
+	<ui:include src="resources/templates/menue.xhtml" />
+
+	<b:jumbotron id="site-title-wrapper">
+		<b:container id="front-container">
+			<h1 class="site-title">Add item</h1>
+		</b:container>		
+	</b:jumbotron>
+
+	<b:container styleClass="main">
+		
+		<b:alert severity="danger" id="errors" role="alert"></b:alert>
+	
+		<h:form>
+		
+			<h:outputLabel value="Product title" for="title" />
+			<b:inputText id="title" value="#{itemController.item.title}" styleClass="required"></b:inputText>
+			<h:message errorStyle="color:red" for="title" />  
+		
+			<br /><h:outputLabel value="Description" for="description" />
+			<div class="form-group">
+				<h:inputTextarea id="description" value="#{itemController.item.description}" styleClass="textarea form-control required" />
+			</div>
+			<h:message errorStyle="color:red" for="description" />  
+			
+			<b:row> 
+			    <b:column span="6">
+			    	<h:outputLabel value="Category" for="category" />
+					<b:selectOneMenu id="category" value="#{itemController.item.category}" styleClass="required">
+			            <f:selectItem itemLabel="Action" itemValue="action"></f:selectItem>
+			            <f:selectItem itemLabel="Shooter" itemValue="shooter"></f:selectItem> 
+			            <f:selectItem itemLabel="Strategy" itemValue="strategy"></f:selectItem>
+			            <f:selectItem itemLabel="RPG" itemValue="rpg"></f:selectItem>
+			            <f:selectItem itemLabel="Simulator" itemValue="simulator"></f:selectItem>
+			            <f:selectItem itemLabel="Racing" itemValue="racing"></f:selectItem>
+			            <f:selectItem itemLabel="Sport" itemValue="sport"></f:selectItem>
+			            <f:selectItem itemLabel="Indie" itemValue="indie"></f:selectItem>
+			            <f:selectItem itemLabel="Puzzle" itemValue="puzzle"></f:selectItem>
+			        </b:selectOneMenu>
+			    </b:column>
+			    <b:column span="6">
+			    	<h:outputLabel  value="Price" for="price" />
+					<b:inputText id="price" value="#{itemController.item.price}" styleClass="required"></b:inputText>
+					<h:message errorStyle="color:red" for="price" />  
+			    </b:column>
+			</b:row>
+			
+			<b:commandButton value="Add item" look="primary" action="itemController.addItem()" styleClass="btn-right"></b:commandButton>
+		
+		</h:form>
+		
+	</b:container>
+
+	<ui:include src="resources/templates/footer.xhtml" />
+
+</h:body>
+</html>

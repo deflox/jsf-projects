@@ -1,0 +1,87 @@
+body {
+	padding-top: 50px;
+}
+
+.btn-right {
+	float: right;
+}
+
+#errors {
+	display: none;
+}
+
+.alert {
+	padding-top: 10px;
+}
+
+.dashicons {
+	text-align: center;
+	padding-bottom: 30px;
+	color: black;
+	transition: background 0.2s;
+	-webkit-transition: background 0.2s;
+}
+
+.dashicons:hover {
+	background-color: #3d566e;
+	color: white;
+}
+
+.dashboard-title {
+	margin: 40px 0px 20px 0;
+	text-align: center;
+}
+
+.dropdown-menu>li>a {
+    cursor: pointer;
+}
+
+.main {
+	padding-top: 10px;
+}
+
+#front-container {
+	background-color: rgba(0,0,0,0.5);
+}
+
+.signup-button-intropage {
+	background-color: transparent;
+	color: #eee;
+	border: 3px solid #eee;
+	transition: all 0.2s;
+	margin-bottom: 20px;
+}
+
+.signup-button-intropage:hover {
+	border-color: #337ab7;
+	color: white;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: transparent;
+}
+
+.signup-button-intropage:focus {
+	background-color: transparent;
+}
+
+.site-title {
+	margin: 0;
+	padding: 15px 0;
+}
+	
+#site-title-wrapper {
+	margin: 0;
+	padding: 0;
+}
+
+.jumbotron {
+	color: white;
+	background-image: url('front-background.jpg.xhtml?ln=img');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+textarea.form-control {
+	height: 300px;
+}
